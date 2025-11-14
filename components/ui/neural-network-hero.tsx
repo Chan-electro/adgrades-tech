@@ -10,10 +10,9 @@ import Link from "next/link";
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
 import { ShimmerButton } from "@/components/ui/shimmer-button";
 
-gsap.registerPlugin(SplitText, useGSAP);
+gsap.registerPlugin(useGSAP);
 
 const vertexShader = `
   varying vec2 vUv;
@@ -184,12 +183,7 @@ export default function Hero({
       if (!headerRef.current) return;
 
       document.fonts.ready.then(() => {
-        const split = new SplitText(headerRef.current!, {
-          type: "lines",
-          wordsClass: "lines",
-        });
-
-        gsap.set(split.lines, {
+        gsap.set(headerRef.current, {
           filter: "blur(16px)",
           yPercent: 30,
           autoAlpha: 0,
@@ -224,14 +218,13 @@ export default function Hero({
         }
 
         tl.to(
-          split.lines,
+          headerRef.current,
           {
             filter: "blur(0px)",
             yPercent: 0,
             autoAlpha: 1,
             scale: 1,
             duration: 0.9,
-            stagger: 0.15,
           },
           0.1
         );
